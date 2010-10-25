@@ -6,7 +6,7 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'shopify_api'
 
 # setup ShopifyAPI with fake api_key and secret
-ShopifyAPI::Session.setup(:api_key => "API Test key", :secret => "API Test secret")
+ShopifyAPI::Session.setup(:api_key => "APITestkey", :secret => "API Test secret")
 
 class Test::Unit::TestCase
   def self.test(string, &block)
