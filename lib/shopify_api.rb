@@ -1,6 +1,7 @@
 require 'active_resource'
 require 'active_support/core_ext/class/attribute_accessors'
 require 'digest/md5'
+require 'base64'
 
 module ShopifyAPI
   METAFIELD_ENABLED_CLASSES = %w( Order Product CustomCollection SmartCollection Page Blog Article Variant)
@@ -307,13 +308,17 @@ module ShopifyAPI
 
   class Variant < Base
     self.prefix = "/admin/products/:product_id/"
+    
+    def self.prefix(options={})
+      options[:product_id].nil? ? "/admin/" : "/admin/products/#{options[:product_id]}/"
+    end
   end
 
   class Image < Base
     self.prefix = "/admin/products/:product_id/"
 
     # generate a method for each possible image variant
-    [:pico, :icon, :thumb, :small, :compact, :medium, :large, :original].each do |m|
+    [:pico, :icon, :thumb, :small, :compact, :medium, :large, :grande, :original].each do |m|
       reg_exp_match = "/\\1_#{m}.\\2"
       define_method(m) { src.gsub(/\/(.*)\.(\w{2,4})/, reg_exp_match) }
     end
@@ -429,7 +434,9 @@ module ShopifyAPI
       if args[0].is_a?(Symbol)
         super
       else
-        find(:one, :from => "/admin/assets.#{format.extension}", :params => {:asset => {:key => args[0]}})
+        params = {:asset => {:key => args[0]}}
+        params = params.merge(args[1][:params]) if args[1] && args[1][:params]
+        find(:one, :from => "/admin/assets.#{format.extension}", :params => params)
       end
     end
 
@@ -498,6 +505,9 @@ module ShopifyAPI
     end
   end
 
+  class ProductSearchEngine < Base
+  end
+  
   # Include Metafields module in all enabled classes
   METAFIELD_ENABLED_CLASSES.each do |klass|
     "ShopifyAPI::#{klass}".constantize.send(:include, Metafields)
