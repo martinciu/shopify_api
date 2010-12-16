@@ -384,6 +384,9 @@ module ShopifyAPI
 
   class Webhook < Base
   end
+  
+  class ScriptTag < Base
+  end
 
   class Event < Base
     self.prefix = "/admin/:resource/:resource_id/"
