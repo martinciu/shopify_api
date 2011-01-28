@@ -396,7 +396,12 @@ module ShopifyAPI
       options[:resource].nil? ? "/admin/" : "/admin/#{options[:resource]}/#{options[:resource_id]}/"
     end
   end
+  class Customer < Base
+  end
 
+  class CustomerGroup < Base
+  end
+  
   # Assets represent the files that comprise your theme.
   # There are different buckets which hold different kinds
   # of assets, each corresponding to one of the folders
@@ -509,6 +514,9 @@ module ShopifyAPI
   end
 
   class ProductSearchEngine < Base
+  end
+  
+  class ScriptTag < Base
   end
   
   # Include Metafields module in all enabled classes
