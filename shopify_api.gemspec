@@ -100,7 +100,7 @@ Copyright (c) 2009 "JadedPixel inc.". See LICENSE for details.
     s.specification_version = 3
   end
   
-  s.add_dependency("activeresource", [">= 2.2.2"])
+  s.add_dependency("activeresource", ["> 3.0.0"])
   s.add_dependency("thor", [">= 0.14.4"])
   
   if s.respond_to?(:add_development_dependency)
